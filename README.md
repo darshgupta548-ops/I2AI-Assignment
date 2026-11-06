@@ -1,1 +1,123 @@
-# I2AI-Assignment
+# Smart Hostel Energy Advisor
+
+A full-stack learning application for exploring hostel energy datasets with four introductory machine-learning methods. Users can upload CSV files, inspect and configure columns, run models, view charts and results, and review an evidence-based report.
+
+## Features
+
+- CSV upload, data preview, column profiling, target/feature selection, and model-readiness checks.
+- Separate workspaces for Linear Regression, Decision Tree, K-Means, and PCA.
+- Scikit-learn execution with model metrics, visualizations, and method-specific explanations.
+- Final report consolidating completed workspace experiments and their run provenance.
+- Optional Gemini interpretation of verified outputs, with a local evidence-based fallback when Gemini is not configured or unavailable.
+- Two generated hostel demonstration datasets: Gujarat solar and Himalayan thermal. A campus meter dataset is also included in the repository.
+
+## Technology
+
+- **Frontend:** React, TypeScript, Vite, Tailwind CSS, Recharts, Three.js / React Three Fiber.
+- **Backend:** Python, FastAPI, Pydantic Settings, SQLAlchemy, SQLite, pandas, NumPy, SciPy, scikit-learn.
+- **Optional AI interpretation:** Google GenAI SDK (Gemini).
+
+## Machine-learning methods
+
+1. **Linear Regression:** Scikit-learn ordinary least squares for numerical targets, an 80/20 train/test split, and R², RMSE, MAE, coefficients, and fitted-line output where applicable.
+2. **Decision Tree:** Scikit-learn CART regression or classification, with a hierarchical tree, split rules, feature importance, and suitable test metrics.
+3. **K-Means:** Scikit-learn clustering with configurable cluster count, scaled inputs, cluster assignments and centroids, and silhouette scoring when valid. It does not require a target.
+4. **PCA:** Scikit-learn principal component analysis on selected measurement columns, with standardization, explained variance, loadings, and a PC1/PC2 projection where supported. It does not require a target.
+
+## Repository contents
+
+- `frontend/` — React/Vite client and its `package-lock.json`.
+- `backend/app/` — FastAPI endpoints, CSV profiling, the four Scikit-learn implementations, and interpretation logic.
+- `backend/tests/` — backend integration and model tests.
+- `backend/storage/datasets/` — small sample CSV assets used by the application.
+- `backend/storage/educational_datasets/` — compact educational CSV fixtures and their metadata.
+- `backend/storage/uploads/10395898_DUMMY_UNI_DATASET.csv` — the 142 KB demonstration fixture used by the supervised-target and feature-policy regression tests. Other uploaded user datasets are excluded from Git.
+- `DATA_170225.csv` — campus building electricity/sub-meter readings that can be inspected through CSV upload.
+- `docs/architecture.md` — architecture notes.
+
+The SQLite database, generated upload copies, local credentials, build output, and dependency folders are not committed. Upload any private datasets again after setting up a new local copy.
+
+## Requirements
+
+- Python 3.10 or newer.
+- Node.js 20.19+ or 22.12+ (Vite 8 requirement) and npm.
+- Git for cloning the repository.
+
+## Local setup
+
+Run the backend and frontend in separate terminals from the project root.
+
+### 1. Configure environment variables
+
+Copy the example file to `.env` (PowerShell):
+
+```powershell
+Copy-Item .env.example .env
+```
+
+Or with Bash:
+
+```bash
+cp .env.example .env
+```
+
+`GEMINI_API_KEY` is optional. Leave it empty to use the local evidence-based interpretation. Do not commit `.env` or place credentials in source files.
+
+Available settings:
+
+| Variable | Purpose | Default |
+| --- | --- | --- |
+| `HOST` | Backend bind address | `127.0.0.1` |
+| `PORT` | Backend port | `8000` |
+| `DEBUG` | FastAPI reload setting when using the module entry point | `True` |
+| `DATABASE_URL` | SQLAlchemy database URL | SQLite file under `backend/` |
+| `GEMINI_API_KEY` | Optional Google Gemini key | Empty (local fallback) |
+| `GEMINI_MODEL` | Gemini model name | `gemini-2.5-flash` |
+
+### 2. Install and run the backend
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install -r backend/requirements.txt
+python -m uvicorn backend.app.main:app --host 127.0.0.1 --port 8000 --reload
+```
+
+For Bash activation, use `source .venv/bin/activate` instead. The API is at `http://127.0.0.1:8000`; interactive documentation is at `http://127.0.0.1:8000/docs`.
+
+### 3. Install and run the frontend
+
+In another terminal:
+
+```powershell
+cd frontend
+npm ci --legacy-peer-deps
+npm run dev
+```
+
+Open the Vite address shown in the terminal (normally `http://localhost:5173`). The development server proxies `/api` requests to the backend on port 8000.
+
+To build the frontend:
+
+```powershell
+npm run build
+```
+
+### 4. Run backend tests
+
+From the project root with the Python environment activated:
+
+```powershell
+python -m pytest backend/tests/test_basic.py -q
+```
+
+## Dataset notes
+
+- The Gujarat solar and Himalayan thermal demonstration datasets are generated by the backend sample loader.
+- `DATA_170225.csv` contains dated building-level electricity and tariff/sub-meter fields and can be loaded through the normal CSV upload flow.
+- `backend/storage/uploads/10395898_DUMMY_UNI_DATASET.csv` is a compact test fixture, not an uploaded account database. It is committed so the dataset-specific regression tests can run from a fresh clone.
+- Runtime SQLite data and arbitrary user uploads remain local and are intentionally excluded from commits.
+
+## Analytical limitations
+
+Regression and tree results describe fitted patterns on the available data and do not establish causation. K-Means groups are descriptive, and PCA summarizes variation rather than predicting consumption. Model results should be interpreted with their dataset-specific provenance, held-out metrics, data coverage, and limitations.

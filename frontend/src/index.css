@@ -1,0 +1,196 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    color-scheme: light;
+    --bg-porcelain: #F4F3EF;
+    --card-soft-white: #FAFAF8;
+    --text-charcoal: #292B32;
+    --text-muted: #777985;
+    
+    /* Pastel Algorithm Identities */
+    --lr-pastel: #DCEAF4;
+    --lr-border: #93C5FD;
+    --lr-accent: #2563EB;
+
+    --dt-pastel: #DCEDE5;
+    --dt-border: #86EFAC;
+    --dt-accent: #059669;
+
+    --km-pastel: #FEF3C7;
+    --km-border: #FCD34D;
+    --km-accent: #D97706;
+
+    --pca-pastel: #E8E2F4;
+    --pca-border: #C4B5FD;
+    --pca-accent: #7C3AED;
+  }
+
+  body {
+    background-color: #F4F3EF;
+    color: #292B32;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+}
+
+/* Claymorphic Surface & Elevation Classes */
+.clay-card {
+  background: #FAFAF8;
+  border-radius: 24px;
+  box-shadow: 10px 10px 24px rgba(186, 181, 169, 0.28), -10px -10px 24px rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.clay-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 14px 14px 30px rgba(186, 181, 169, 0.35), -14px -14px 30px rgba(255, 255, 255, 1);
+}
+
+.clay-surface {
+  background: #FAFAF8;
+  border-radius: 20px;
+  box-shadow: 8px 8px 18px rgba(190, 185, 175, 0.22), -8px -8px 18px rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+}
+
+.clay-inset {
+  background: #EFECE6;
+  border-radius: 16px;
+  box-shadow: inset 4px 4px 10px rgba(180, 175, 165, 0.28), inset -4px -4px 10px rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(220, 215, 205, 0.5);
+}
+
+.clay-button {
+  background: #FAFAF8;
+  border-radius: 16px;
+  box-shadow: 6px 6px 14px rgba(185, 180, 170, 0.26), -6px -6px 14px rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  color: #292B32;
+  font-weight: 600;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.clay-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 8px 8px 18px rgba(185, 180, 170, 0.32), -8px -8px 18px rgba(255, 255, 255, 1);
+}
+
+.clay-button:active {
+  transform: translateY(1px);
+  box-shadow: inset 3px 3px 6px rgba(185, 180, 170, 0.3), inset -3px -3px 6px rgba(255, 255, 255, 0.9);
+}
+
+.clay-button-primary {
+  background: #292B32;
+  color: #FAFAF8;
+  border-radius: 16px;
+  box-shadow: 6px 6px 16px rgba(41, 43, 50, 0.25), -4px -4px 12px rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(60, 64, 75, 0.8);
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.clay-button-primary:hover {
+  background: #1F2127;
+  transform: translateY(-1px);
+  box-shadow: 8px 8px 20px rgba(41, 43, 50, 0.32);
+}
+
+/* Liquid Glass Elements */
+.liquid-glass {
+  background: rgba(250, 250, 248, 0.72);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  box-shadow: 0 10px 32px rgba(160, 155, 145, 0.18);
+}
+
+.liquid-glass-pill {
+  background: rgba(250, 250, 248, 0.82);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 8px 24px rgba(150, 145, 135, 0.16);
+}
+
+/* Custom Soft Scrollbar */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+::-webkit-scrollbar-track {
+  background: #F4F3EF;
+}
+::-webkit-scrollbar-thumb {
+  background: #D8D4CA;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #C2BDAF;
+}
+
+/* Print Stylesheet for Academic Reports */
+@media print {
+  body {
+    background: #FFFFFF !important;
+    color: #000000 !important;
+    font-size: 11pt !important;
+  }
+  
+  .print\:hidden, header, nav, .floating-nav, button {
+    display: none !important;
+  }
+
+  .clay-card, .clay-surface {
+    box-shadow: none !important;
+    border: 1px solid #E2E8F0 !important;
+    background: #FFFFFF !important;
+    page-break-inside: avoid;
+  }
+
+  .liquid-glass {
+    backdrop-filter: none !important;
+    background: #FFFFFF !important;
+    box-shadow: none !important;
+    border: 1px solid #CBD5E1 !important;
+  }
+}
+
+.math-equation {
+  max-width: 100%;
+  color: inherit;
+}
+
+.math-block {
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0.35rem 0.15rem;
+}
+
+.math-block .katex-display {
+  margin: 0.25rem 0;
+}
+
+.math-inline {
+  display: inline;
+}
+
+.math-render-error {
+  display: inline-block;
+  color: #991b1b;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 0.5rem;
+  padding: 0.25rem 0.5rem;
+  font: 0.75rem/1.4 ui-monospace, monospace;
+}
+
+@media (max-width: 640px) {
+  .math-equation .katex {
+    font-size: 0.94em;
+  }
+}

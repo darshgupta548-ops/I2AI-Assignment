@@ -1,0 +1,630 @@
+{
+  "linear_regression": [
+    {
+      "id": "lr_01",
+      "file": "lr_01_temp_power.csv",
+      "name": "Ambient Temperature vs. Cooling Power",
+      "context": "Hostel chiller electricity demand across varying seasonal temperatures in Gujarat.",
+      "rows": 120,
+      "cols": 2,
+      "target": "cooling_power_kwh",
+      "features": [
+        "temperature_c"
+      ],
+      "learning_objective": "Observe a strong positive linear correlation (R\u00b2 \u2248 0.90) and derive the rate of power increase per degree Celsius (\u03b2\u2081 \u2248 3.8).",
+      "expected_behavior": "Steep positive slope; low residuals."
+    },
+    {
+      "id": "lr_02",
+      "file": "lr_02_study_exam.csv",
+      "name": "Study Hours vs. Examination Score",
+      "context": "Student performance in an AI introductory course relative to preparation time.",
+      "rows": 80,
+      "cols": 2,
+      "target": "exam_score",
+      "features": [
+        "daily_study_hours"
+      ],
+      "learning_objective": "Examine how individual variation introduces residuals even with a clear general upward trend.",
+      "expected_behavior": "Clear upward trend with moderate residual dispersion around the regression line."
+    },
+    {
+      "id": "lr_03",
+      "file": "lr_03_occupancy_energy.csv",
+      "name": "Hostel Headcount vs. Energy Consumption",
+      "context": "Daily electricity consumption scaled by the number of students staying in Block A.",
+      "rows": 150,
+      "cols": 2,
+      "target": "total_energy_kwh",
+      "features": [
+        "resident_count"
+      ],
+      "learning_objective": "Understand the intercept \u03b2\u2080 as baseline standby/facility energy when occupancy approaches zero.",
+      "expected_behavior": "Positive slope showing per-capita energy increment; intercept indicates building base-load."
+    },
+    {
+      "id": "lr_04",
+      "file": "lr_04_campaign_compliance.csv",
+      "name": "Awareness Campaign Budget vs. Conservation Compliance",
+      "context": "Investment in student energy-saving campaigns and the resulting percentage compliance.",
+      "rows": 60,
+      "cols": 2,
+      "target": "compliance_rate_pct",
+      "features": [
+        "campaign_budget_inr"
+      ],
+      "learning_objective": "Analyze small coefficient values resulting from large scale differences between X (thousands) and Y (percentages).",
+      "expected_behavior": "Small positive slope coefficient highlighting the importance of unit interpretation."
+    },
+    {
+      "id": "lr_05",
+      "file": "lr_05_area_load.csv",
+      "name": "Wing Floor Area vs. Base Power Demand",
+      "context": "Architectural floor space across campus dormitories and their passive electrical base-load.",
+      "rows": 90,
+      "cols": 2,
+      "target": "base_load_kw",
+      "features": [
+        "wing_floor_area_sqm"
+      ],
+      "learning_objective": "Observe continuous architectural scaling and how physical spatial dimensions predict base power.",
+      "expected_behavior": "Consistent positive regression slope with uniform variance along the domain."
+    },
+    {
+      "id": "lr_06",
+      "file": "lr_06_hdd_heating.csv",
+      "name": "Heating Degree Days vs. Thermal Energy",
+      "context": "Himalayan hostel winter heating demand as a function of thermal deficit below 18\u00b0C.",
+      "rows": 100,
+      "cols": 2,
+      "target": "heater_energy_kwh",
+      "features": [
+        "heating_degree_days"
+      ],
+      "learning_objective": "Model heating energy demand directly from building physics heating-degree-day theory.",
+      "expected_behavior": "Strong correlation; intercept represents baseline water heater consumption on zero HDD days."
+    },
+    {
+      "id": "lr_07",
+      "file": "lr_07_kitchen_hours.csv",
+      "name": "Kitchen Operating Hours vs. Energy Use",
+      "context": "Hostel mess kitchen ovens, refrigeration, and steamers running daily schedules.",
+      "rows": 110,
+      "cols": 2,
+      "target": "kitchen_kwh",
+      "features": [
+        "daily_kitchen_hours"
+      ],
+      "learning_objective": "Verify how equipment runtime provides a nearly direct physical coefficient reflecting power rating.",
+      "expected_behavior": "High R\u00b2 (> 0.92); slope reflects average combined kilowatt rating of operational appliances."
+    },
+    {
+      "id": "lr_08",
+      "file": "lr_08_solar_grid.csv",
+      "name": "Solar PV Output vs. Grid Import (Negative Slope)",
+      "context": "Displacement of grid utility power by on-site rooftop solar photovoltaic generation.",
+      "rows": 130,
+      "cols": 2,
+      "target": "grid_import_kwh",
+      "features": [
+        "solar_generation_kwh"
+      ],
+      "learning_objective": "Explore an inverse (negative) linear slope (\u03b2\u2081 \u2248 -0.92) and its physical interpretation.",
+      "expected_behavior": "Negative regression slope demonstrating demand offset through renewable self-generation."
+    },
+    {
+      "id": "lr_09",
+      "file": "lr_09_multivariate_energy.csv",
+      "name": "Multivariate Hostel Energy Predictors",
+      "context": "Simultaneous regression on temperature, occupancy count, and air conditioner operational hours.",
+      "rows": 140,
+      "cols": 4,
+      "target": "total_hostel_kwh",
+      "features": [
+        "temperature_c",
+        "resident_occupancy",
+        "ac_runtime_hours"
+      ],
+      "learning_objective": "Observe multiple regression where individual standardized coefficients indicate relative feature leverage.",
+      "expected_behavior": "High overall explained variance; AC hours and temperature dominate the standardized \u03b2 weights."
+    },
+    {
+      "id": "lr_10",
+      "file": "lr_10_outliers_noise.csv",
+      "name": "Noisy Telemetry with Severe Outliers",
+      "context": "Water heating telemetry containing faulty sensor surges and zero-reading transmission dropouts.",
+      "rows": 80,
+      "cols": 2,
+      "target": "energy_consumption_kwh",
+      "features": [
+        "water_heater_hours"
+      ],
+      "learning_objective": "Discover how Ordinary Least Squares squared residuals (e\u00b2) make the fitted line vulnerable to extreme outliers.",
+      "expected_behavior": "The fitted slope tilts noticeably toward outliers; residual plot shows extreme leverage points."
+    }
+  ],
+  "decision_tree": [
+    {
+      "id": "dt_01",
+      "file": "dt_01_consumption_regime.csv",
+      "name": "Hostel Energy Consumption Regime (Binary Classification)",
+      "context": "Classifying whether a hostel wing enters a peak demand surge based on ambient heat and student presence.",
+      "rows": 150,
+      "cols": 3,
+      "target": "consumption_regime",
+      "features": [
+        "ambient_temp_c",
+        "occupancy_ratio"
+      ],
+      "learning_objective": "See how a Decision Tree identifies orthogonal rectangular decision boundaries in feature space.",
+      "expected_behavior": "Root split isolates high temperatures, secondary split partitions occupancy ratio."
+    },
+    {
+      "id": "dt_02",
+      "file": "dt_02_occupancy_status.csv",
+      "name": "Wing Crowding Status (Multi-Class Classification)",
+      "context": "Categorizing hostel commons into Vacant, Normal, or Crowded based on gateway sensors.",
+      "rows": 120,
+      "cols": 3,
+      "target": "wing_crowding_status",
+      "features": [
+        "rfid_hourly_entries",
+        "active_wifi_connections"
+      ],
+      "learning_objective": "Understand multi-class Gini impurity and how decision splits segregate multiple class labels.",
+      "expected_behavior": "Tree forms hierarchical thresholds dividing three operational status regions."
+    },
+    {
+      "id": "dt_03",
+      "file": "dt_03_appliance_regime.csv",
+      "name": "Cooling Appliance Mode Selection",
+      "context": "Predicting student cooling method choice based on temperature and heat index humidity.",
+      "rows": 130,
+      "cols": 3,
+      "target": "cooling_mode",
+      "features": [
+        "outdoor_temp_c",
+        "relative_humidity_pct"
+      ],
+      "learning_objective": "Learn how feature interactions (e.g. temperature combined with high humidity) trigger branch paths.",
+      "expected_behavior": "Primary split on temperature, followed by a humidity split on intermediate temperatures."
+    },
+    {
+      "id": "dt_04",
+      "file": "dt_04_insulation_grade.csv",
+      "name": "Hostel Building Envelope Efficiency Grade",
+      "context": "Architectural envelope ratings across campus accommodation blocks.",
+      "rows": 100,
+      "cols": 3,
+      "target": "insulation_grade",
+      "features": [
+        "wall_u_value",
+        "window_wall_ratio"
+      ],
+      "learning_objective": "Observe how physical threshold standards map naturally to decision tree branches.",
+      "expected_behavior": "Clean decision boundaries separating building efficiency tiers."
+    },
+    {
+      "id": "dt_05",
+      "file": "dt_05_peak_demand_reg.csv",
+      "name": "Non-Linear Peak Demand (Regression Tree)",
+      "context": "Continuous electrical demand displaying discontinuous schedule jumps throughout the day.",
+      "rows": 140,
+      "cols": 3,
+      "target": "peak_load_kw",
+      "features": [
+        "hour_of_day",
+        "temperature_c"
+      ],
+      "learning_objective": "Understand how DecisionTreeRegressor approximates non-linear step functions through constant leaf predictions.",
+      "expected_behavior": "First split isolates evening peak hours [18, 23], predicting higher mean kilowatt values."
+    },
+    {
+      "id": "dt_06",
+      "file": "dt_06_tariff_period.csv",
+      "name": "Time-of-Day Electricity Tariff Tier",
+      "context": "DISCOM utility billing classification determining hourly electricity costs.",
+      "rows": 160,
+      "cols": 3,
+      "target": "tariff_tier",
+      "features": [
+        "clock_hour",
+        "grid_import_kw"
+      ],
+      "learning_objective": "See how tree splits model regulatory utility pricing rules accurately.",
+      "expected_behavior": "Clock hour splits isolate night off-peak and morning/evening peak intervals."
+    },
+    {
+      "id": "dt_07",
+      "file": "dt_07_building_type.csv",
+      "name": "Hostel Wing Structural Architecture",
+      "context": "Classification of dormitory buildings into High-Rise vs Low-Rise configurations.",
+      "rows": 110,
+      "cols": 4,
+      "target": "wing_type",
+      "features": [
+        "floor_count",
+        "elevator_installed",
+        "daily_energy_kwh"
+      ],
+      "learning_objective": "Observe high feature importance on a deterministic divider (floor count) versus supporting features.",
+      "expected_behavior": "Floor count achieves 100% Gini reduction in a single root split."
+    },
+    {
+      "id": "dt_08",
+      "file": "dt_08_weather_dispatch.csv",
+      "name": "Weather-Based HVAC Dispatch Command",
+      "context": "Automated building management decision rule for chiller and ventilation dispatch.",
+      "rows": 120,
+      "cols": 3,
+      "target": "hvac_dispatch",
+      "features": [
+        "solar_radiation_wm2",
+        "ambient_temp_c"
+      ],
+      "learning_objective": "Understand how operational engineering heuristics are translated into binary tree conditions.",
+      "expected_behavior": "Temperature splits separate economizer mode from active chilling; solar radiation refines pre-cooling."
+    },
+    {
+      "id": "dt_09",
+      "file": "dt_09_mixed_predictors.csv",
+      "name": "Academic Schedule & Thermal Concurrency",
+      "context": "Predicting critical load peaks during student exam weeks under variable temperatures.",
+      "rows": 135,
+      "cols": 4,
+      "target": "load_category",
+      "features": [
+        "is_exam_week",
+        "temperature_c",
+        "common_room_hours"
+      ],
+      "learning_objective": "See decision trees effortlessly handle binary flags (exam week) alongside continuous physical metrics.",
+      "expected_behavior": "Binary feature creates an immediate branch partition isolating exam week behaviors."
+    },
+    {
+      "id": "dt_10",
+      "file": "dt_10_overfitting_demo.csv",
+      "name": "Overfitting vs. Pruning Demonstration",
+      "context": "Noisy sensor readings designed to illustrate leaf memorization versus generalized shallow trees.",
+      "rows": 60,
+      "cols": 3,
+      "target": "classification",
+      "features": [
+        "sensor_a_reading",
+        "sensor_b_reading"
+      ],
+      "learning_objective": "Understand how deep unconstrained trees create isolated single-sample leaves around noise points.",
+      "expected_behavior": "Constraining max_depth=3 yields clean generalization; deep tree isolates noise with complex splits."
+    }
+  ],
+  "kmeans": [
+    {
+      "id": "km_01",
+      "file": "km_01_three_natural_clusters.csv",
+      "name": "Three Distinct Operational Regimes",
+      "context": "Hostel daily consumption cleanly separated into Night Standby, Daytime Active, and Evening Peak.",
+      "rows": 165,
+      "cols": 2,
+      "target": null,
+      "features": [
+        "ac_daily_hours",
+        "total_energy_kwh"
+      ],
+      "learning_objective": "Observe optimal cluster convergence on well-separated data (Silhouette Score > 0.70).",
+      "expected_behavior": "Elbow method shows sharp deflection at k=3; centroids align with the 3 operational modes."
+    },
+    {
+      "id": "km_02",
+      "file": "km_02_temporal_habits.csv",
+      "name": "Temporal Lifestyle Regimes (Early vs Night)",
+      "context": "Diurnal electricity timing separating early morning risers from late-night studying habits.",
+      "rows": 130,
+      "cols": 2,
+      "target": null,
+      "features": [
+        "morning_load_kwh",
+        "midnight_load_kwh"
+      ],
+      "learning_objective": "See how unlabelled data discovers behavioral archetypes without supervision.",
+      "expected_behavior": "Clear separation at k=2 with high silhouette coefficient."
+    },
+    {
+      "id": "km_03",
+      "file": "km_03_building_eui.csv",
+      "name": "Building Energy Use Intensity (EUI) Benchmarking",
+      "context": "Normalised per-square-meter metrics across 150 campus facilities.",
+      "rows": 150,
+      "cols": 2,
+      "target": null,
+      "features": [
+        "annual_eui_kwh_sqm",
+        "peak_demand_w_sqm"
+      ],
+      "learning_objective": "Understand how clustering benchmarks facility energy efficiency across heterogeneous structures.",
+      "expected_behavior": "Evaluates 4 facility tiers with increasing annual EUI and peak density."
+    },
+    {
+      "id": "km_04",
+      "file": "km_04_weather_behavior.csv",
+      "name": "Seasonal Cooling Operational Archetypes",
+      "context": "Hostel cooling response during temperate spring, scorching summer, and humid monsoon.",
+      "rows": 145,
+      "cols": 2,
+      "target": null,
+      "features": [
+        "outdoor_temp_c",
+        "ac_runtime_hours"
+      ],
+      "learning_objective": "Learn how feature standardisation is essential when variables have different scales (temp vs runtime).",
+      "expected_behavior": "Reveals 3 seasonal clusters reflecting ambient thermal drivers."
+    },
+    {
+      "id": "km_05",
+      "file": "km_05_occupancy_geyser.csv",
+      "name": "Hostel Population & Thermal Water Demand",
+      "context": "Water geyser runtime linked to full weekday occupancy vs weekend departures and holidays.",
+      "rows": 140,
+      "cols": 2,
+      "target": null,
+      "features": [
+        "active_residents",
+        "hot_water_hours"
+      ],
+      "learning_objective": "Observe how calendar schedules naturally create distinct physical demand clusters.",
+      "expected_behavior": "Centroids clearly identify Full Term, Weekend Lull, and Vacation Baseline."
+    },
+    {
+      "id": "km_06",
+      "file": "km_06_appliance_signatures.csv",
+      "name": "3-Dimensional Appliance Signatures",
+      "context": "Sub-metered circuit breakdown across lighting, dining mess cooking, and central HVAC.",
+      "rows": 150,
+      "cols": 3,
+      "target": null,
+      "features": [
+        "lighting_kwh",
+        "kitchen_mess_kwh",
+        "hvac_cooling_kwh"
+      ],
+      "learning_objective": "Understand Euclidean distance calculation in 3-dimensional space (d = \u221a(\u0394x\u00b2 + \u0394y\u00b2 + \u0394z\u00b2)).",
+      "expected_behavior": "Centroids isolate distinct circuit-specific operational dominance."
+    },
+    {
+      "id": "km_07",
+      "file": "km_07_diurnal_profiles.csv",
+      "name": "Diurnal Peak Electrical Signatures",
+      "context": "Comparison of morning vs evening power spikes across regular and exam semester intervals.",
+      "rows": 130,
+      "cols": 2,
+      "target": null,
+      "features": [
+        "morning_peak_kw",
+        "evening_peak_kw"
+      ],
+      "learning_objective": "Discover how clustering clusters load shapes to guide peak shaving strategies.",
+      "expected_behavior": "Two distinct clusters separating balanced diurnal schedules from evening-dominated peaks."
+    },
+    {
+      "id": "km_08",
+      "file": "km_08_multisite_footprints.csv",
+      "name": "Multi-Dimensional Campus Facility Typologies",
+      "context": "Profiling university buildings across area, headcount, on-site solar, and grid import.",
+      "rows": 160,
+      "cols": 4,
+      "target": null,
+      "features": [
+        "floor_area_sqm",
+        "headcount",
+        "rooftop_solar_kwh",
+        "net_import_kwh"
+      ],
+      "learning_objective": "See K-Means operate on 4-dimensional standardized vectors and interpret multidimensional centroids.",
+      "expected_behavior": "Unscaled centroids clearly characterize Modern Solar, Legacy Un-retrofitted, and High-Density Tower buildings."
+    },
+    {
+      "id": "km_09",
+      "file": "km_09_unequal_sizes.csv",
+      "name": "Unequal Cluster Sizes (Chiller Malfunction Anomaly)",
+      "context": "Detecting an infrequent but severe mechanical chiller malfunction cluster (13% of observations).",
+      "rows": 138,
+      "cols": 2,
+      "target": null,
+      "features": [
+        "ambient_temp_c",
+        "chiller_power_kwh"
+      ],
+      "learning_objective": "Observe how K-Means partitions unbalanced cluster proportions and flags energy anomalies.",
+      "expected_behavior": "Centroid 2 captures the high-power failure mode despite comprising only 18 days."
+    },
+    {
+      "id": "km_10",
+      "file": "km_10_overlapping_clusters.csv",
+      "name": "Overlapping Distributions & Cluster Ambiguity",
+      "context": "Transitional weather days where spring and early summer behaviors blend continuously.",
+      "rows": 150,
+      "cols": 2,
+      "target": null,
+      "features": [
+        "temperature_c",
+        "daily_energy_kwh"
+      ],
+      "learning_objective": "Explore lower silhouette scores (\u2248 0.38) and how Euclidean Voronoi boundaries split overlapping continuous densities.",
+      "expected_behavior": "Centroids represent cluster averages, but boundary points have lower confidence."
+    }
+  ],
+  "pca": [
+    {
+      "id": "pca_01",
+      "file": "pca_01_correlated_submeters.csv",
+      "name": "Collinear Sub-Meters (Strong Redundancy)",
+      "context": "Three sub-meters measuring adjacent interconnected hostel wings with synchronized schedules.",
+      "rows": 140,
+      "cols": 3,
+      "target": null,
+      "features": [
+        "wing_a_meter_kwh",
+        "wing_b_meter_kwh",
+        "wing_c_meter_kwh"
+      ],
+      "learning_objective": "Discover how PC1 captures > 95% of total variance when features are strongly collinear.",
+      "expected_behavior": "Scree plot shows PC1 dominating; loadings on PC1 are nearly equal across all three meters."
+    },
+    {
+      "id": "pca_02",
+      "file": "pca_02_thermal_vs_electrical.csv",
+      "name": "Two Orthogonal Drivers: Weather vs. Occupancy",
+      "context": "Telemetry driven independently by outdoor thermal intensity and indoor resident headcount.",
+      "rows": 150,
+      "cols": 4,
+      "target": null,
+      "features": [
+        "outdoor_temp_c",
+        "ac_power_kwh",
+        "student_headcount",
+        "plug_load_kwh"
+      ],
+      "learning_objective": "Observe how PC1 and PC2 cleanly separate two independent physical drivers in the factor loadings matrix.",
+      "expected_behavior": "PC1 loads heavily on Temperature & AC; PC2 loads heavily on Headcount & Plug loads."
+    },
+    {
+      "id": "pca_03",
+      "file": "pca_03_redundant_sensors.csv",
+      "name": "Redundant Dual-Wing Environmental Sensors",
+      "context": "Paired IoT environmental sensors across North and South hostel corridors.",
+      "rows": 130,
+      "cols": 4,
+      "target": null,
+      "features": [
+        "sensor_temp_north_c",
+        "sensor_temp_south_c",
+        "sensor_humidity_north_pct",
+        "sensor_humidity_south_pct"
+      ],
+      "learning_objective": "Demonstrate dimensionality reduction compressing 4 correlated physical channels down to 2 principal components without losing information.",
+      "expected_behavior": "Cumulative variance of PC1 + PC2 exceeds 96%."
+    },
+    {
+      "id": "pca_04",
+      "file": "pca_04_building_envelope.csv",
+      "name": "Building Envelope Physics Profiles",
+      "context": "Architectural insulation properties across university campus residence halls.",
+      "rows": 120,
+      "cols": 4,
+      "target": null,
+      "features": [
+        "wall_u_val",
+        "roof_u_val",
+        "glazing_ratio",
+        "air_infiltration_rate"
+      ],
+      "learning_objective": "Understand how building thermal loss coefficients project onto dominant envelope quality axes.",
+      "expected_behavior": "PC1 represents overall thermal conductivity; PC2 reflects glazing proportion."
+    },
+    {
+      "id": "pca_05",
+      "file": "pca_05_indoor_environmental.csv",
+      "name": "Indoor Environmental Quality (IEQ) & Power Footprint",
+      "context": "Multi-modal room sensors recording CO2, noise levels, and plug loads driven by student presence.",
+      "rows": 140,
+      "cols": 4,
+      "target": null,
+      "features": [
+        "active_occupants",
+        "indoor_co2_ppm",
+        "ambient_noise_db",
+        "plug_power_kw"
+      ],
+      "learning_objective": "See how standardisation balances diverse physical units (ppm vs dB vs kW vs counts) before PCA.",
+      "expected_behavior": "Without standardisation, CO2 ppm (values 500-1100) would falsely overwhelm the variance; standardisation equalizes their influence."
+    },
+    {
+      "id": "pca_06",
+      "file": "pca_06_high_dim_telemetry.csv",
+      "name": "High-Dimensional Campus Energy Telemetry (8 Features)",
+      "context": "Comprehensive hostel telemetry spanning environmental, HVAC, lighting, kitchen, and elevators.",
+      "rows": 160,
+      "cols": 8,
+      "target": null,
+      "features": [
+        "outdoor_temp",
+        "solar_radiation",
+        "chiller_power",
+        "occupancy_headcount",
+        "lighting_kwh",
+        "mess_kitchen_kwh",
+        "elevator_kwh",
+        "water_pump_kwh"
+      ],
+      "learning_objective": "Experience dimensionality reduction from 8 features down to 2 primary components explaining the majority of campus variance.",
+      "expected_behavior": "PC1 aligns with human activity loads; PC2 aligns with outdoor solar/cooling weather drivers."
+    },
+    {
+      "id": "pca_07",
+      "file": "pca_07_single_dominant_axis.csv",
+      "name": "Single Dominant Variance Axis (>98% on PC1)",
+      "context": "Simulated parallel busbars reflecting a single master electrical generator load.",
+      "rows": 110,
+      "cols": 3,
+      "target": null,
+      "features": [
+        "main_submeter_a",
+        "main_submeter_b",
+        "main_submeter_c"
+      ],
+      "learning_objective": "Observe an extreme scree plot where PC1 accounts for > 98% of total variance, proving almost pure 1D redundancy.",
+      "expected_behavior": "Scree plot shows a massive first bar with near-zero subsequent eigenvalues."
+    },
+    {
+      "id": "pca_08",
+      "file": "pca_08_planar_subspace.csv",
+      "name": "Planar 2-Component Subspace (Flat 3D Ellipsoid)",
+      "context": "Three-phase electrical generator currents mathematically constrained to a 2D plane.",
+      "rows": 130,
+      "cols": 3,
+      "target": null,
+      "features": [
+        "generator_phase_a",
+        "generator_phase_b",
+        "generator_phase_c"
+      ],
+      "learning_objective": "See a 3D point cloud collapse onto a 2D sheet, with PC1 and PC2 explaining \u2248 99.8% of variance.",
+      "expected_behavior": "PC3 eigenvalue is near zero; 2D projection preserves virtually 100% of the dataset geometry."
+    },
+    {
+      "id": "pca_09",
+      "file": "pca_09_three_meaningful_pcs.csv",
+      "name": "Three Meaningful Independent Energy Components",
+      "context": "Facility subsystems capturing distinct Weather, Study, and Dining operational cycles.",
+      "rows": 150,
+      "cols": 6,
+      "target": null,
+      "features": [
+        "ac_chiller_kw",
+        "solar_pv_kw",
+        "library_power_kw",
+        "wifi_router_kw",
+        "dining_hall_kw",
+        "kitchen_freezer_kw"
+      ],
+      "learning_objective": "Interpret a scree plot where 3 components are required before the eigenvalue curve levels off (the elbow).",
+      "expected_behavior": "Scree plot shows 3 distinct elevated components; factor loadings show pairs of features matching each PC."
+    },
+    {
+      "id": "pca_10",
+      "file": "pca_10_spherical_noise.csv",
+      "name": "Uncorrelated Spherical Noise (Information Loss Demonstration)",
+      "context": "Uncorrelated sensor noise testing the limits of dimensionality reduction.",
+      "rows": 120,
+      "cols": 4,
+      "target": null,
+      "features": [
+        "random_sensor_x1",
+        "random_sensor_x2",
+        "random_sensor_x3",
+        "random_sensor_x4"
+      ],
+      "learning_objective": "Discover what happens when PCA cannot reduce dimensions: explained variance is flat (\u2248 25% per component), meaning reducing to 2D loses 50% of information.",
+      "expected_behavior": "Flat scree plot; each component explains \u2248 25% of variance, visually illustrating unavoidable information loss."
+    }
+  ]
+}
